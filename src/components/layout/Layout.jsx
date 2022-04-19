@@ -1,11 +1,13 @@
-import classes from "./Layout.module.css";
-import MainNavigation2 from "./MainNavigation";
+import { Box } from "@mui/material/node_modules/@mui/system";
+import MainNavigation from "./MainNavigation";
 
 function Layout(props) {
     return (
         <div>
-            <MainNavigation2 />
-            <main className={classes.main}>{props.children}</main>
+            <MainNavigation />
+            <Box sx={{ width: 2 / 4 }} m="auto">
+                <main>{props.children}</main>
+            </Box>
         </div>
     );
 }

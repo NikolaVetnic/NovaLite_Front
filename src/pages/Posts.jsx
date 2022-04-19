@@ -45,13 +45,15 @@ function PostsPage() {
                         <Grid item xs={12} key={post.id}>
                             <BasicCard
                                 key={post.id}
+                                id={post.id}
                                 title={post.title}
                                 content={post.content}
+                                setPosts={setPosts}
                             />
                         </Grid>
                     ))}
                     <Grid item xs={12}>
-                        <InputCard />
+                        <InputCard posts={posts} setPosts={setPosts} />
                     </Grid>
                 </Grid>
             </Layout>
