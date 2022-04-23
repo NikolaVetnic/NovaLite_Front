@@ -1,18 +1,27 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 
-import Avatar from "@mui/material/Avatar";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
+import {
+    AppBar,
+    Avatar,
+    Box,
+    Button,
+    IconButton,
+    Toolbar,
+    Typography,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 
 export default function MainNavigation() {
     const deleteToken = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
+    };
+
+    let navigate = useNavigate();
+    const routeChange = () => {
+        let path = "/user/" + localStorage.getItem("id");
+        navigate(path);
     };
 
     return (
@@ -38,16 +47,21 @@ export default function MainNavigation() {
                     <Button color="inherit" href="/home">
                         Home
                     </Button>
-                    <Button color="inherit" href="/friends">
-                        Friends
+                    <Button color="inherit" href="/feed">
+                        Feed
+                    </Button>
+                    <Button color="inherit" href="/people">
+                        People
                     </Button>
                     <Button color="inherit" href="/login" onClick={deleteToken}>
                         Logout
                     </Button>
-                    <Avatar
-                        alt="Remy Sharp"
-                        src={localStorage.getItem("imgUrl")}
-                    />
+                    <IconButton onClick={routeChange} sx={{ p: 0 }}>
+                        <Avatar
+                            alt="Remy Sharp"
+                            src={localStorage.getItem("imgUrl")}
+                        />
+                    </IconButton>
                 </Toolbar>
             </AppBar>
         </Box>

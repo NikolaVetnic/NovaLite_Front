@@ -1,5 +1,5 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -14,8 +14,6 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-
-import { useState } from "react";
 
 const style = {
     position: "absolute",
@@ -66,7 +64,7 @@ const LoginPage = () => {
         axios({
             method: "GET",
             url:
-                "http://localhost:9000/login?username=" +
+                "/login?username=" +
                 formValues.username +
                 "&password=" +
                 formValues.password,
@@ -76,13 +74,14 @@ const LoginPage = () => {
                 navigate("/home");
 
                 axios
-                    .get("http://localhost:9000/user", {
+                    .get("/user", {
                         headers: {
                             Authorization: `${localStorage.getItem("token")}`,
                         },
                     })
                     .then((res) => {
                         localStorage.setItem("user", res.data.user);
+                        localStorage.setItem("id", res.data.user.id);
                         localStorage.setItem("imgUrl", res.data.user.imgUrl);
                         console.log(res.data);
                         console.log(localStorage.getItem("imgUrl"));
@@ -121,6 +120,7 @@ const LoginPage = () => {
                                 type={"email"}
                                 value={formValues.name}
                                 onChange={handleInputChange}
+                                style={{ width: 400 }}
                             />
                         </Grid>
                         <Grid item xs={12} p={2}>
@@ -131,6 +131,7 @@ const LoginPage = () => {
                                 type={"password"}
                                 value={formValues.name}
                                 onChange={handleInputChange}
+                                style={{ width: 400 }}
                             />
                         </Grid>
                         <Grid item xs={12}>

@@ -74,7 +74,7 @@ const RegisterPage = () => {
         } else {
             axios({
                 method: "POST",
-                url: "http://localhost:9000/users",
+                url: "/users",
                 data: {
                     username: formValues.username,
                     firstName: formValues.firstName,
@@ -122,6 +122,7 @@ const RegisterPage = () => {
                                 type={"email"}
                                 value={formValues.name}
                                 onChange={handleInputChange}
+                                style={{ width: 400 }}
                             />
                         </Grid>
                         <Grid item xs={12} p={2}>
@@ -132,6 +133,7 @@ const RegisterPage = () => {
                                 type="text"
                                 value={formValues.name}
                                 onChange={handleInputChange}
+                                style={{ width: 400 }}
                             />
                         </Grid>
                         <Grid item xs={12} p={2}>
@@ -142,6 +144,7 @@ const RegisterPage = () => {
                                 type="text"
                                 value={formValues.name}
                                 onChange={handleInputChange}
+                                style={{ width: 400 }}
                             />
                         </Grid>
                         <Grid item xs={12} p={2}>
@@ -152,6 +155,7 @@ const RegisterPage = () => {
                                 type={"url"}
                                 value={formValues.name}
                                 onChange={handleInputChange}
+                                style={{ width: 400 }}
                             />
                         </Grid>
                         <Grid item xs={12} p={2}>
@@ -162,6 +166,7 @@ const RegisterPage = () => {
                                 type={"password"}
                                 value={formValues.name}
                                 onChange={handleInputChange}
+                                style={{ width: 400 }}
                             />
                         </Grid>
                         <Grid item xs={12} p={2}>
@@ -172,6 +177,7 @@ const RegisterPage = () => {
                                 type={"password"}
                                 value={formValues.name}
                                 onChange={handleInputChange}
+                                style={{ width: 400 }}
                             />
                         </Grid>
                         <Grid item xs="auto" p={2}>

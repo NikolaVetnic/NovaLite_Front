@@ -1,4 +1,5 @@
 import { Box } from "@mui/material/node_modules/@mui/system";
+
 import MainNavigation from "./MainNavigation";
 
 function Layout(props) {
