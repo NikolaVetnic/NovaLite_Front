@@ -81,7 +81,9 @@ const LoginPage = () => {
                     })
                     .then((res) => {
                         localStorage.setItem("user", res.data.user);
+                        // redundantno
                         localStorage.setItem("id", res.data.user.id);
+                        // redundantno
                         localStorage.setItem("imgUrl", res.data.user.imgUrl);
                         console.log(res.data);
                         console.log(localStorage.getItem("imgUrl"));

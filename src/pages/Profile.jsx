@@ -200,7 +200,11 @@ export default function ProfilePage(props) {
                             }}
                             justifyContent="center"
                             alt="profile pic"
-                            src={user.imgUrl}
+                            src={
+                                user.imgUrl !== ""
+                                    ? user.imgUrl
+                                    : "https://www.kindpng.com/picc/m/144-1447559_profile-icon-missing-profile-picture-icon-hd-png.png"
+                            }
                         />
                     </Grid>
                     {/* edit profile button */}
