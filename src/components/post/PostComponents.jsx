@@ -22,7 +22,9 @@ export function PostHeader(props) {
 
     const handleDelete = (event) => {
         event.preventDefault();
-        axios.delete(`/posts/del/${props.post.id}`);
+        axios.delete(`/posts/del/${props.post.id}`).then((res) => {
+            props.handleUpdatePosts();
+        });
     };
 
     const handleEdit = (event) => {
@@ -102,16 +104,22 @@ export function PostFooter(props) {
                 postId: props.post.id,
                 reactionId: 1,
             },
+        }).then((res) => {
+            props.handleUpdatePosts();
         });
     };
 
     const handleDislike = (event) => {
         event.preventDefault();
-        axios.delete(`/preact/p/${props.post.id}`, {
-            headers: {
-                Authorization: `${localStorage.getItem("token")}`,
-            },
-        });
+        axios
+            .delete(`/preact/p/${props.post.id}`, {
+                headers: {
+                    Authorization: `${localStorage.getItem("token")}`,
+                },
+            })
+            .then((res) => {
+                props.handleUpdatePosts();
+            });
     };
 
     return (

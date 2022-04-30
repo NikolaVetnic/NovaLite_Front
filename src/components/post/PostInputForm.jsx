@@ -53,10 +53,14 @@ export default function PostInputForm(props) {
             headers: {
                 Authorization: `${localStorage.getItem("token")}`,
             },
-        }).catch((err) => {
-            console.error(err);
-            setOpen(true);
-        });
+        })
+            .then((res) => {
+                props.handleUpdatePosts();
+            })
+            .catch((err) => {
+                console.error(err);
+                setOpen(true);
+            });
         setFormValues({ title: "", content: "" });
     };
 
@@ -75,7 +79,8 @@ export default function PostInputForm(props) {
             },
         })
             .then((res) => {
-                props.setPosts([]);
+                props.handleUpdatePosts();
+                props.parentStateSetter(false);
             })
             .catch((err) => {
                 console.error(err);

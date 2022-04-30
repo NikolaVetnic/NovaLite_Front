@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Navigate } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import { Grid } from "@mui/material";
 
@@ -13,25 +13,48 @@ export function compare_posts(a, b) {
     return a.dateTime < b.dateTime ? 1 : a.dateTime > b.dateTime ? -1 : 0;
 }
 
-function PostsPage() {
+export default function PostsPage() {
     const [posts, setPosts] = useState([]);
 
+    // useEffect(() => {
+    //     if (localStorage.getItem("token")) {
+    //         axios
+    //             .get("/posts", {
+    //                 headers: {
+    //                     Authorization: `${localStorage.getItem("token")}`,
+    //                 },
+    //             })
+    //             .then((res) => {
+    //                 setPosts(res.data.posts.sort(compare_posts));
+    //             })
+    //             .catch((error) => {
+    //                 console.error(error);
+    //             });
+    //     }
+    // }, [posts]);
+
+    const wrapperFetchPosts = useCallback(() => {
+        axios
+            .get("/posts", {
+                headers: {
+                    Authorization: `${localStorage.getItem("token")}`,
+                },
+            })
+            .then((res) => {
+                setPosts(res.data.posts.sort(compare_posts));
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
+
     useEffect(() => {
-        if (localStorage.getItem("token")) {
-            axios
-                .get("/posts", {
-                    headers: {
-                        Authorization: `${localStorage.getItem("token")}`,
-                    },
-                })
-                .then((res) => {
-                    setPosts(res.data.posts.sort(compare_posts));
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
-        }
-    }, [posts]);
+        wrapperFetchPosts();
+    }, [wrapperFetchPosts]);
+
+    const handleUpdatePosts = () => {
+        wrapperFetchPosts();
+    };
 
     if (!localStorage.getItem("token")) return <Navigate to="/login" />;
 
@@ -41,7 +64,11 @@ function PostsPage() {
             <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <CardFrame>
-                        <PostInputForm title="New Post" btnCaption="Create" />
+                        <PostInputForm
+                            title="New Post"
+                            btnCaption="Create"
+                            handleUpdatePosts={handleUpdatePosts}
+                        />
                     </CardFrame>
                 </Grid>
                 {posts.length === 0 && (
@@ -55,6 +82,7 @@ function PostsPage() {
                             key={post.id}
                             post={post}
                             setPosts={setPosts}
+                            handleUpdatePosts={handleUpdatePosts}
                         />
                     </Grid>
                 ))}
@@ -62,5 +90,3 @@ function PostsPage() {
         </Layout>
     );
 }
-
-export default PostsPage;

@@ -1,0 +1,1 @@
+- three pages fiddle with posts: People, Feed and Profile; all three use similar functions, this should be generalized as right now it is just copy/paste

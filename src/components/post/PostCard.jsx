@@ -58,6 +58,8 @@ export default function Post(props) {
                     setComments={setComments}
                     btnCaption="Update"
                     title={"Edit post [" + props.post.id + "]"}
+                    handleUpdatePosts={props.handleUpdatePosts}
+                    parentStateSetter={wrapperSetEditOpen}
                 />
             )}
             {!editOpen && (
@@ -67,9 +69,14 @@ export default function Post(props) {
                         setPosts={props.setPosts}
                         parentState={editOpen}
                         parentStateSetter={wrapperSetEditOpen}
+                        handleUpdatePosts={props.handleUpdatePosts}
                     />
                     <PostBody post={props.post} />
-                    <PostFooter post={props.post} setPosts={props.setPosts} />
+                    <PostFooter
+                        post={props.post}
+                        setPosts={props.setPosts}
+                        handleUpdatePosts={props.handleUpdatePosts}
+                    />
                 </div>
             )}
             {displayComments &&

@@ -42,7 +42,22 @@ export default function ProfilePage(props) {
      * 3 - friendship
      */
 
-    const wrapperGetPosts = useCallback(() => {
+    // const wrapperGetPosts = useCallback(() => {
+    //     axios
+    //         .get("/posts/all/" + userId, {
+    //             headers: {
+    //                 Authorization: `${localStorage.getItem("token")}`,
+    //             },
+    //         })
+    //         .then((res) => {
+    //             setPosts(res.data.posts.sort(compare_posts));
+    //         })
+    //         .catch((error) => {
+    //             console.error(error);
+    //         });
+    // }, [userId]);
+
+    const wrapperFetchPosts = useCallback(() => {
         axios
             .get("/posts/all/" + userId, {
                 headers: {
@@ -56,6 +71,14 @@ export default function ProfilePage(props) {
                 console.error(error);
             });
     }, [userId]);
+
+    useEffect(() => {
+        wrapperFetchPosts();
+    }, [wrapperFetchPosts]);
+
+    const handleUpdatePosts = () => {
+        wrapperFetchPosts();
+    };
 
     useEffect(() => {
         if (localStorage.getItem("token")) {
@@ -90,7 +113,7 @@ export default function ProfilePage(props) {
 
                     if (befriends) {
                         if (befriends.status === 2) {
-                            wrapperGetPosts();
+                            wrapperFetchPosts();
                             setDisplayMode(3);
                         } else if (
                             befriends.status === 1 &&
@@ -111,7 +134,7 @@ export default function ProfilePage(props) {
                     console.error(error);
                 });
         }
-    }, [userId, wrapperGetPosts, user.firstName, user.lastName, user.imgUrl]);
+    }, [userId, wrapperFetchPosts, user.firstName, user.lastName, user.imgUrl]);
 
     const handleRequest = (event) => {
         event.preventDefault();
@@ -142,7 +165,7 @@ export default function ProfilePage(props) {
                 Authorization: `${localStorage.getItem("token")}`,
             },
         }).then(() => {
-            wrapperGetPosts();
+            wrapperFetchPosts();
             setDisplayMode(3);
         });
     };
@@ -381,7 +404,8 @@ export default function ProfilePage(props) {
                                     <PostCard
                                         key={post.id}
                                         post={post}
-                                        setPosts={wrapperGetPosts}
+                                        setPosts={wrapperFetchPosts}
+                                        handleUpdatePosts={handleUpdatePosts}
                                     />
                                 </Grid>
                             ))}

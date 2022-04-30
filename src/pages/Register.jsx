@@ -70,7 +70,9 @@ const RegisterPage = () => {
         const { password, confirmPassword } = formValues;
 
         if (password !== confirmPassword) {
-            alert("Passwords don't match");
+            modalData.title = "Error";
+            modalData.description = "Passwords don't match.";
+            setOpen(true);
         } else {
             axios({
                 method: "POST",
