@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import { Avatar, Grid, IconButton, Typography } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -8,16 +8,14 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 
 export function CommentHeader(props) {
-    const [editOpen, setEditOpen] = useState(false);
-
     const { parentStateSetter } = props;
 
     let belongsToCurrentUser =
         localStorage.getItem("id") === props.comment.owner.id + "";
 
     useEffect(() => {
-        parentStateSetter(editOpen);
-    }, [parentStateSetter, editOpen]);
+        parentStateSetter(false);
+    }, [parentStateSetter]);
 
     const handleDelete = (event) => {
         event.preventDefault();
@@ -28,13 +26,12 @@ export function CommentHeader(props) {
                 },
             })
             .then(() => {
-                props.setPosts([]);
-                props.setComments([]);
+                props.handleUpdateComments();
             });
     };
 
     const handleEdit = (event) => {
-        setEditOpen(true);
+        parentStateSetter(true);
     };
 
     return (
@@ -110,8 +107,7 @@ export function CommentFooter(props) {
                 reactionId: 1,
             },
         }).then(() => {
-            props.setPosts([]);
-            props.setComments([]);
+            props.handleUpdateComments();
         });
     };
 
@@ -124,8 +120,7 @@ export function CommentFooter(props) {
                 },
             })
             .then(() => {
-                props.setPosts([]);
-                props.setComments([]);
+                props.handleUpdateComments();
             });
     };
 

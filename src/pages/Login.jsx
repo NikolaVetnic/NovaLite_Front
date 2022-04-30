@@ -59,7 +59,6 @@ const LoginPage = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(formValues);
 
         axios({
             method: "GET",
@@ -80,13 +79,21 @@ const LoginPage = () => {
                         },
                     })
                     .then((res) => {
-                        localStorage.setItem("user", res.data.user);
-                        // redundantno
                         localStorage.setItem("id", res.data.user.id);
-                        // redundantno
+                        localStorage.setItem(
+                            "username",
+                            res.data.user.username
+                        );
+                        localStorage.setItem(
+                            "firstName",
+                            res.data.user.firstName
+                        );
+                        localStorage.setItem(
+                            "lastName",
+                            res.data.user.lastName
+                        );
                         localStorage.setItem("imgUrl", res.data.user.imgUrl);
-                        console.log(res.data);
-                        console.log(localStorage.getItem("imgUrl"));
+                        localStorage.setItem("roleId", res.data.user.roleId);
                     })
                     .catch((error) => {
                         console.error(error);

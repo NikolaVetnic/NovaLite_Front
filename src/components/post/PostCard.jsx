@@ -7,10 +7,16 @@ import CommentCard from "../comment/CommentCard";
 import CommentInputForm from "../comment/CommentInputForm";
 import CardFrame from "../layout/CardFrame";
 
+export function compare_comments(a, b) {
+    return a.id < b.id ? 1 : -1;
+}
+
 export default function Post(props) {
     // the parentState will be set by its child component
     const [editOpen, setEditOpen] = useState(false);
     const [comments, setComments] = useState([]);
+
+    let displayComments = true;
 
     // make wrapper function to give child
     const wrapperSetEditOpen = useCallback(
@@ -20,7 +26,7 @@ export default function Post(props) {
         [setEditOpen]
     );
 
-    useEffect(() => {
+    const wrapperFetchComments = useCallback(() => {
         axios
             .get("/comments/getByPostId/" + props.post.id, {
                 headers: {
@@ -28,12 +34,20 @@ export default function Post(props) {
                 },
             })
             .then((res) => {
-                setComments(res.data.comments);
+                setComments(res.data.comments.sort(compare_comments));
             })
             .catch((error) => {
                 console.error(error);
             });
     }, [props.post.id]);
+
+    useEffect(() => {
+        wrapperFetchComments();
+    }, [wrapperFetchComments]);
+
+    const handleUpdateComments = () => {
+        wrapperFetchComments();
+    };
 
     return (
         <CardFrame>
@@ -58,22 +72,25 @@ export default function Post(props) {
                     <PostFooter post={props.post} setPosts={props.setPosts} />
                 </div>
             )}
-            {comments.map((c) => {
-                return (
-                    <CommentCard
-                        key={c.id}
-                        comment={c}
-                        setPosts={props.setPosts}
-                        setComments={setComments}
-                    ></CommentCard>
-                );
-            })}
+            {displayComments &&
+                comments.map((c) => {
+                    return (
+                        <CommentCard
+                            key={c.id}
+                            comment={c}
+                            setPosts={props.setPosts}
+                            setComments={setComments}
+                            handleUpdateComments={handleUpdateComments}
+                        ></CommentCard>
+                    );
+                })}
             <div>
                 <CardFrame>
                     <CommentInputForm
                         post={props.post}
                         setPosts={props.setPosts}
                         btnCaption="Comment"
+                        handleUpdateComments={handleUpdateComments}
                     />
                 </CardFrame>
             </div>

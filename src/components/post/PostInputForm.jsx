@@ -1,15 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 
-import {
-    Box,
-    Button,
-    Grid,
-    Modal,
-    TextareaAutosize,
-    TextField,
-    Typography,
-} from "@mui/material";
+import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 
 const style = {
     position: "absolute",
@@ -61,14 +53,10 @@ export default function PostInputForm(props) {
             headers: {
                 Authorization: `${localStorage.getItem("token")}`,
             },
-        })
-            .then((res) => {
-                props.setPosts([]);
-            })
-            .catch((err) => {
-                console.error(err);
-                setOpen(true);
-            });
+        }).catch((err) => {
+            console.error(err);
+            setOpen(true);
+        });
         setFormValues({ title: "", content: "" });
     };
 

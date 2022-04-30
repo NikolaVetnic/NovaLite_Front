@@ -41,12 +41,7 @@ function PostsPage() {
             <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <CardFrame>
-                        <PostInputForm
-                            posts={posts}
-                            setPosts={setPosts}
-                            title="New Post"
-                            btnCaption="Create"
-                        />
+                        <PostInputForm title="New Post" btnCaption="Create" />
                     </CardFrame>
                 </Grid>
                 {posts.length === 0 && (

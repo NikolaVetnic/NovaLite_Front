@@ -1,7 +1,4 @@
-import axios from "axios";
 import { useCallback, useState } from "react";
-
-import { Card, CardContent } from "@mui/material";
 
 import { CommentHeader, CommentBody, CommentFooter } from "./CommentComponents";
 import CommentInputForm from "./CommentInputForm";
@@ -23,25 +20,24 @@ export default function CommentCard(props) {
                 {editOpen && (
                     <CommentInputForm
                         comment={props.comment}
-                        setPosts={props.setPosts}
                         btnCaption="Update"
+                        parentStateSetter={wrapperSetEditOpen}
                         title={"Edit comment [" + props.comment.id + "]"}
+                        handleUpdateComments={props.handleUpdateComments}
                     />
                 )}
                 {!editOpen && (
                     <div>
                         <CommentHeader
                             comment={props.comment}
-                            setPosts={props.setPosts}
-                            setComments={props.setComments}
                             parentState={editOpen}
                             parentStateSetter={wrapperSetEditOpen}
+                            handleUpdateComments={props.handleUpdateComments}
                         />
                         <CommentBody comment={props.comment} />
                         <CommentFooter
                             comment={props.comment}
-                            setPosts={props.setPosts}
-                            setComments={props.setComments}
+                            handleUpdateComments={props.handleUpdateComments}
                         />
                     </div>
                 )}

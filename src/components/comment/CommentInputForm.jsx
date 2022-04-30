@@ -1,15 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 
-import {
-    Avatar,
-    Box,
-    Button,
-    Modal,
-    TextField,
-    Typography,
-} from "@mui/material";
-import { CommentHeader } from "./CommentComponents";
+import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 
 const style = {
     position: "absolute",
@@ -54,7 +46,7 @@ export default function CommentInputForm(props) {
             content: formValues.content,
             postId: props.post.id,
         };
-        console.log(d);
+        // console.log(d);
         axios({
             method: "POST",
             url: "/comments",
@@ -64,7 +56,7 @@ export default function CommentInputForm(props) {
             },
         })
             .then((res) => {
-                props.setPosts([]);
+                props.handleUpdateComments();
             })
             .catch((err) => {
                 console.error(err);
@@ -89,7 +81,8 @@ export default function CommentInputForm(props) {
             },
         })
             .then((res) => {
-                props.setPosts([]);
+                props.handleUpdateComments();
+                props.parentStateSetter(false);
             })
             .catch((err) => {
                 console.error(err);
